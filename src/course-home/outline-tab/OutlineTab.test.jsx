@@ -106,9 +106,9 @@ describe('Outline Tab', () => {
   });
 
   describe('Course Outline', () => {
-    it('displays link to start course', async () => {
+    it('displays link to resume course before the first visit', async () => {
       await fetchAndRender();
-      expect(screen.getByRole('link', { name: messages.start.defaultMessage })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: messages.resume.defaultMessage })).toBeInTheDocument();
     });
 
     it('displays link to resume course', async () => {
@@ -947,7 +947,7 @@ describe('Outline Tab', () => {
           ],
         });
         await fetchAndRender();
-        expect(screen.getByRole('link', { name: messages.start.defaultMessage })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: messages.resume.defaultMessage })).toBeInTheDocument();
         expect(screen.queryByText('More content is coming soon!')).not.toBeInTheDocument();
       });
     });
