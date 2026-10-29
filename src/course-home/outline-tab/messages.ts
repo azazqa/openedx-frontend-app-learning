@@ -169,6 +169,11 @@ const messages = defineMessages({
     id: 'learning.outline.startBlurb',
     defaultMessage: 'Begin your course today',
   },
+  progressRate: {
+    id: 'learning.outline.progressRate',
+    defaultMessage: '진도율',
+    description: 'Heading for the cumulative study-time progress shown beside the course tools',
+  },
   tools: {
     id: 'learning.outline.tools',
     defaultMessage: 'Course Tools',

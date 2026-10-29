@@ -12,6 +12,7 @@ import CourseDates from './widgets/CourseDates';
 import CourseHandouts from './widgets/CourseHandouts';
 import StartOrResumeCourseCard from './widgets/StartOrResumeCourseCard';
 import WeeklyLearningGoalCard from './widgets/WeeklyLearningGoalCard';
+import CourseProgress from './widgets/CourseProgress';
 import CourseTools from './widgets/CourseTools';
 import { fetchOutlineTab } from '../data';
 import messages from './messages';
@@ -180,6 +181,7 @@ const OutlineTab = () => {
                 subscribedToReminders={selectedGoal && 'subscribedToReminders' in selectedGoal ? selectedGoal.subscribedToReminders : false}
               />
             )}
+            <CourseProgress />
             <CourseTools />
             <CourseOutlineTabNotificationsSlot courseId={courseId} />
             <CourseDates />
