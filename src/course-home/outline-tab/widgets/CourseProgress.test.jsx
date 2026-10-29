@@ -34,6 +34,8 @@ describe('CourseProgress', () => {
     render(<CourseProgress />);
     expect(await screen.findByText('12.5%')).toBeInTheDocument();
     expect(screen.getByRole('progressbar').style.width).toBe('12.5%');
+    expect(screen.getByRole('progressbar').parentElement.style.width).toBe('200px');
+    expect(screen.getByRole('progressbar').parentElement.style.maxWidth).toBe('200px');
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '12.5');
     expect(screen.getByRole('heading', { name: '진도율' })).toBeInTheDocument();
   });

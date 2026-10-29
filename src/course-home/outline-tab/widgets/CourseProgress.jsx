@@ -48,7 +48,7 @@ const CourseProgress = () => {
       <h2 className="h4">{title}</h2>
       <div className="d-flex align-items-center">
         <span className="font-weight-bold mr-2">{label}</span>
-        <div className="progress flex-grow-1" style={{ height: 10 }}>
+        <div className="progress" style={{ height: 10, width: 200, maxWidth: 200 }}>
           <div
             className="progress-bar"
             role="progressbar"
