@@ -28,6 +28,7 @@ import WelcomeMessage from './widgets/WelcomeMessage';
 import ProctoringInfoPanel from './widgets/ProctoringInfoPanel';
 import AccountActivationAlert from '../../alerts/logistration-alert/AccountActivationAlert';
 import CourseHomeSectionOutlineSlot from '../../plugin-slots/CourseHomeSectionOutlineSlot';
+import { ChasiProgressProvider } from './section-outline/ChasiProgress';
 
 const OutlineTab = () => {
   const intl = useIntl();
@@ -118,7 +119,7 @@ const OutlineTab = () => {
   }, [location.search]);
 
   return (
-    <>
+    <ChasiProgressProvider courseId={courseId}>
       <div data-learner-type={learnerType} className="row w-100 mx-0 my-3 justify-content-between">
         <div className="col-12 col-sm-auto p-0">
           <div role="heading" aria-level="1" className="h2">{title}</div>
@@ -189,7 +190,7 @@ const OutlineTab = () => {
           </div>
         )}
       </div>
-    </>
+    </ChasiProgressProvider>
   );
 };
 

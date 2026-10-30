@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import SequenceDueDate from './SequenceDueDate';
 import HiddenSequenceLink from './HiddenSequenceLink';
 import SequenceTitle from './SequenceTitle';
+import { useChasiProgress } from './ChasiProgress';
+import { formatStudyTime } from './formatStudyTime';
 
 interface Props {
   id: string;
@@ -31,6 +33,7 @@ const SequenceLink: React.FC<Props> = ({
     title,
     hideFromTOC,
   } = sequence;
+  const chasi = useChasiProgress(id);
 
   return (
     <li>
@@ -46,6 +49,14 @@ const SequenceLink: React.FC<Props> = ({
         />
         {hideFromTOC && (
           <HiddenSequenceLink />
+        )}
+        {chasi && (
+          <div className="small text-gray-700 mt-1 ml-4" data-testid="chasi-study">
+            {formatStudyTime(chasi.seconds)}
+            {' · '}
+            {chasi.percent}
+            %
+          </div>
         )}
         <SequenceDueDate {...{ due, id, description }} />
       </div>
