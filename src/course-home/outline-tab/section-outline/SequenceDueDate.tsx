@@ -4,6 +4,8 @@ import { useModel } from '../../../generic/model-store';
 
 import { useContextId } from '../../../data/hooks';
 import messages from '../messages';
+import { useChasiProgress } from './ChasiProgress';
+import { formatStudyTime } from './formatStudyTime';
 
 interface Props {
   due: string;
@@ -18,6 +20,7 @@ const SequenceDueDate: React.FC<Props> = ({
 }) => {
   const intl = useIntl();
   const courseId = useContextId();
+  const chasi = useChasiProgress(id);
   let dueDateMessage: string | React.ReactNode = intl.formatMessage(
     messages.sequenceNoDueDate,
     { description: description || '' },
@@ -50,6 +53,14 @@ const SequenceDueDate: React.FC<Props> = ({
 
   return (
     <div className="row w-100 m-0 ml-3 pl-3">
+      {chasi && (
+        <span data-testid="chasi-study">
+          {formatStudyTime(chasi.seconds)}
+          {' · '}
+          {chasi.percent}
+          %
+        </span>
+      )}
       <small className="text-body pl-2">
         {dueDateMessage}
       </small>
