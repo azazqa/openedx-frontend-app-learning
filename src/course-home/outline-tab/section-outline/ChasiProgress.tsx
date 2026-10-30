@@ -5,16 +5,33 @@ import {
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 
+import { chasiMark, ChasiMark } from './chasiMark';
+
 export interface ChasiRate {
   seconds: number;
   percent: string;
 }
 
-const ChasiProgressContext = createContext<Record<string, ChasiRate>>({});
+interface ChasiProgressValue {
+  refund: boolean;
+  rates: Record<string, ChasiRate>;
+}
+
+const EMPTY: ChasiProgressValue = { refund: false, rates: {} };
+
+const ChasiProgressContext = createContext<ChasiProgressValue>(EMPTY);
 
 export const useChasiProgress = (sequenceId: string): ChasiRate | undefined => (
-  useContext(ChasiProgressContext)[sequenceId]
+  useContext(ChasiProgressContext).rates[sequenceId]
 );
+
+export const useRefundCourse = (): boolean => useContext(ChasiProgressContext).refund;
+
+export const useChasiSequenceMark = (sequenceId: string): ChasiMark => {
+  const refund = useRefundCourse();
+  const chasi = useChasiProgress(sequenceId);
+  return chasiMark(refund, chasi?.percent);
+};
 
 interface Props {
   courseId: string;
@@ -22,11 +39,11 @@ interface Props {
 }
 
 export const ChasiProgressProvider = ({ courseId, children }: Props) => {
-  const [rates, setRates] = useState<Record<string, ChasiRate>>({});
+  const [value, setValue] = useState<ChasiProgressValue>(EMPTY);
 
   useEffect(() => {
     if (!courseId) {
-      setRates({});
+      setValue(EMPTY);
       return undefined;
     }
     let cancelled = false;
@@ -34,12 +51,15 @@ export const ChasiProgressProvider = ({ courseId, children }: Props) => {
     getAuthenticatedHttpClient().get(url)
       .then(({ data }) => {
         if (!cancelled) {
-          setRates(data || {});
+          setValue({
+            refund: Boolean(data?.refund),
+            rates: data?.chasi || {},
+          });
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setRates({});
+          setValue(EMPTY);
         }
       });
     return () => {
@@ -48,7 +68,7 @@ export const ChasiProgressProvider = ({ courseId, children }: Props) => {
   }, [courseId]);
 
   return (
-    <ChasiProgressContext.Provider value={rates}>
+    <ChasiProgressContext.Provider value={value}>
       {children}
     </ChasiProgressContext.Provider>
   );

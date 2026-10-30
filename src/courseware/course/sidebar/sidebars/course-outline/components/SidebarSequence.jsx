@@ -2,9 +2,12 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Collapsible } from '@openedx/paragon';
+import { Collapsible, Icon } from '@openedx/paragon';
+import { CheckCircle, CheckCircleOutline, IncompleteCircle } from '@openedx/paragon/icons';
 
 import courseOutlineMessages from '@src/course-home/outline-tab/messages';
+import { useChasiSequenceMark } from '@src/course-home/outline-tab/section-outline/ChasiProgress';
+import { sequenceStatus } from '@src/course-home/outline-tab/section-outline/chasiMark';
 import { useCourseOutlineSidebar } from '../hooks';
 import CompletionIcon from './CompletionIcon';
 import SidebarUnit from './SidebarUnit';
@@ -30,20 +33,44 @@ const SidebarSequence = ({
   const [open, setOpen] = useState(defaultOpen);
   const { activeSequenceId, units, isEnabledCompletionTracking } = useCourseOutlineSidebar();
   const isActiveSequence = id === activeSequenceId;
+  const mark = useChasiSequenceMark(id);
+  const status = sequenceStatus(mark, complete);
+  const label = {
+    done: courseOutlineMessages.completedAssignment,
+    progress: courseOutlineMessages.chasiInProgress,
+    open: courseOutlineMessages.incompleteAssignment,
+  }[status];
+  const progressIcon = {
+    done: CheckCircle,
+    progress: IncompleteCircle,
+    open: CheckCircleOutline,
+  }[status];
+  const progressClass = {
+    done: 'text-success',
+    progress: 'text-warning',
+    open: 'text-gray-400',
+  }[status];
 
   const sectionTitle = (
     <>
       <div className="col-auto p-0" style={{ fontSize: '1.1rem' }}>
-        <CompletionIcon completionStat={completionStat} enabled={isEnabledCompletionTracking} />
+        {mark === 'edx' ? (
+          <CompletionIcon completionStat={completionStat} enabled={isEnabledCompletionTracking} />
+        ) : (
+          <Icon
+            src={progressIcon}
+            className={progressClass}
+            size="sm"
+            svgAttrs={{ 'aria-label': intl.formatMessage(label) }}
+          />
+        )}
       </div>
       <div className="col-9 d-flex flex-column flex-grow-1 ml-3 mr-auto p-0 text-left">
         <span className="align-middle text-dark-500">{title}</span>
         {specialExamInfo && <span className="align-middle small text-muted">{specialExamInfo}</span>}
-        {isEnabledCompletionTracking && (
+        {(mark !== 'edx' || isEnabledCompletionTracking) && (
           <span className="sr-only">
-            , {intl.formatMessage(complete
-            ? courseOutlineMessages.completedAssignment
-            : courseOutlineMessages.incompleteAssignment)}
+            , {intl.formatMessage(label)}
           </span>
         )}
       </div>

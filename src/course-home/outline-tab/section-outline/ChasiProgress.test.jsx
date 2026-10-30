@@ -5,7 +5,7 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import {
   initializeMockApp, render, screen, waitFor,
 } from '../../../setupTest';
-import { ChasiProgressProvider, useChasiProgress } from './ChasiProgress';
+import { ChasiProgressProvider, useChasiProgress, useRefundCourse } from './ChasiProgress';
 
 initializeMockApp();
 
@@ -14,10 +14,11 @@ const sequenceId = 'block-v1:org+course+run+type@sequential+block@abc';
 
 const Probe = () => {
   const chasi = useChasiProgress(sequenceId);
+  const refund = useRefundCourse();
   if (!chasi) {
-    return null;
+    return <div>{refund ? 'refund' : 'plain'}</div>;
   }
-  return <div>{`${chasi.seconds} ${chasi.percent}`}</div>;
+  return <div>{`${chasi.seconds} ${chasi.percent} ${refund ? 'refund' : 'plain'}`}</div>;
 };
 
 describe('ChasiProgressProvider', () => {
@@ -33,13 +34,13 @@ describe('ChasiProgressProvider', () => {
 
   it('keeps a rate below half the recognized time', async () => {
     axiosMock.onGet(`${getConfig().LMS_BASE_URL}/klms/api/progress/chasi/?course_id=${encodeURIComponent(courseId)}`)
-      .reply(200, { [sequenceId]: { seconds: 27, percent: '1.3' } });
+      .reply(200, { refund: true, chasi: { [sequenceId]: { seconds: 27, percent: '1.3' } } });
     render(
       <ChasiProgressProvider courseId={courseId}>
         <Probe />
       </ChasiProgressProvider>,
     );
-    expect(await screen.findByText('27 1.3')).toBeInTheDocument();
+    expect(await screen.findByText('27 1.3 refund')).toBeInTheDocument();
   });
 
   it('renders nothing for the row when the request fails', async () => {
@@ -51,6 +52,6 @@ describe('ChasiProgressProvider', () => {
       </ChasiProgressProvider>,
     );
     await waitFor(() => expect(axiosMock.history.get.length).toBe(1));
-    expect(screen.queryByText('27 1.3')).not.toBeInTheDocument();
+    expect(await screen.findByText('plain')).toBeInTheDocument();
   });
 });

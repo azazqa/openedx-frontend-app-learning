@@ -85,6 +85,11 @@ const messages = defineMessages({
     defaultMessage: 'Incomplete',
     description: 'Text used to describe the gray checkmark icon in front of an assignment title',
   },
+  chasiInProgress: {
+    id: 'learning.outline.chasiInProgress',
+    defaultMessage: '학습 진행중',
+    description: '환급 과정의 차시 진도율이 0%보다 크고 50% 미만일 때 아이콘 이름',
+  },
   incompleteSection: {
     id: 'learning.outline.incompleteSection',
     defaultMessage: 'Incomplete section',

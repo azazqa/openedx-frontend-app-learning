@@ -8,6 +8,7 @@ import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import { AlertList } from '@src/generic/user-messages';
 import { useModel } from '@src/generic/model-store';
+import { ChasiProgressProvider } from '@src/course-home/outline-tab/section-outline/ChasiProgress';
 import { LearnerToolsSlot } from '../../plugin-slots/LearnerToolsSlot';
 import SidebarProvider from './sidebar/SidebarContextProvider';
 import { RightSidebarTriggerSlot } from '../../plugin-slots/RightSidebarTriggerSlot';
@@ -72,54 +73,56 @@ const Course = ({
   }, [sequenceId]);
 
   return (
-    <SidebarProvider courseId={courseId} unitId={unitId}>
-      <Helmet>
-        <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${getConfig().SITE_NAME}`}</title>
-      </Helmet>
-      <div className="position-relative d-flex align-items-xl-center mb-4 mt-1 flex-column flex-xl-row">
-        <CourseBreadcrumbsSlot
-          courseId={courseId}
-          sectionId={section ? section.id : null}
-          sequenceId={sequenceId}
-          isStaff={isStaff}
-          unitId={unitId}
-        />
-        {shouldDisplayLearnerTools && (
+    <ChasiProgressProvider courseId={courseId}>
+      <SidebarProvider courseId={courseId} unitId={unitId}>
+        <Helmet>
+          <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${getConfig().SITE_NAME}`}</title>
+        </Helmet>
+        <div className="position-relative d-flex align-items-xl-center mb-4 mt-1 flex-column flex-xl-row">
+          <CourseBreadcrumbsSlot
+            courseId={courseId}
+            sectionId={section ? section.id : null}
+            sequenceId={sequenceId}
+            isStaff={isStaff}
+            unitId={unitId}
+          />
+          {shouldDisplayLearnerTools && (
           <LearnerToolsSlot
             enrollmentMode={course.enrollmentMode}
             isStaff={isStaff}
             courseId={courseId}
             unitId={unitId}
           />
-        )}
-        <div className="w-100 d-flex align-items-center">
-          <CourseOutlineMobileSidebarTriggerSlot />
-          <RightSidebarTriggerSlot courseId={courseId} />
+          )}
+          <div className="w-100 d-flex align-items-center">
+            <CourseOutlineMobileSidebarTriggerSlot />
+            <RightSidebarTriggerSlot courseId={courseId} />
+          </div>
         </div>
-      </div>
 
-      <AlertList topic="sequence" />
-      <Sequence
-        unitId={unitId}
-        sequenceId={sequenceId}
-        courseId={courseId}
-        unitNavigationHandler={unitNavigationHandler}
-        nextSequenceHandler={nextSequenceHandler}
-        previousSequenceHandler={previousSequenceHandler}
-      />
-      <CelebrationModal
-        courseId={courseId}
-        isOpen={firstSectionCelebrationOpen}
-        onClose={() => setFirstSectionCelebrationOpen(false)}
-      />
-      <WeeklyGoalCelebrationModal
-        courseId={courseId}
-        daysPerWeek={daysPerWeek}
-        isOpen={weeklyGoalCelebrationOpen}
-        onClose={() => setWeeklyGoalCelebrationOpen(false)}
-      />
-      <ContentTools course={course} />
-    </SidebarProvider>
+        <AlertList topic="sequence" />
+        <Sequence
+          unitId={unitId}
+          sequenceId={sequenceId}
+          courseId={courseId}
+          unitNavigationHandler={unitNavigationHandler}
+          nextSequenceHandler={nextSequenceHandler}
+          previousSequenceHandler={previousSequenceHandler}
+        />
+        <CelebrationModal
+          courseId={courseId}
+          isOpen={firstSectionCelebrationOpen}
+          onClose={() => setFirstSectionCelebrationOpen(false)}
+        />
+        <WeeklyGoalCelebrationModal
+          courseId={courseId}
+          daysPerWeek={daysPerWeek}
+          isOpen={weeklyGoalCelebrationOpen}
+          onClose={() => setWeeklyGoalCelebrationOpen(false)}
+        />
+        <ContentTools course={course} />
+      </SidebarProvider>
+    </ChasiProgressProvider>
   );
 };
 
