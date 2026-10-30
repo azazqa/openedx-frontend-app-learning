@@ -50,7 +50,7 @@ const CourseProgress = () => {
         <span className="font-weight-bold mr-2">{label}</span>
         <div className="progress" style={{ height: 10, width: 200, maxWidth: 200 }}>
           <div
-            className="progress-bar"
+            className="progress-bar bg-success-700"
             role="progressbar"
             style={{ width: `${width}%` }}
             aria-valuenow={width}

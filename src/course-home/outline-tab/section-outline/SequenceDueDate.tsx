@@ -41,7 +41,6 @@ const SequenceDueDate: React.FC<Props> = ({
             day="numeric"
             month="short"
             year="numeric"
-            timeZoneName="short"
             value={due}
             {...timezoneFormatArgs}
           />
@@ -52,7 +51,7 @@ const SequenceDueDate: React.FC<Props> = ({
   }
 
   return (
-    <div className="row w-100 m-0 ml-3 pl-3">
+    <div className="row w-100 m-0 ml-3 pl-3 align-items-baseline">
       {chasi && (
         <span data-testid="chasi-study">
           {formatStudyTime(chasi.seconds)}

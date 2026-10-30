@@ -33,6 +33,7 @@ describe('CourseProgress', () => {
     axiosMock.onGet(`${getConfig().LMS_BASE_URL}/klms/api/progress/`).reply(200, { [courseId]: '12.5' });
     render(<CourseProgress />);
     expect(await screen.findByText('12.5%')).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toHaveClass('bg-success-700');
     expect(screen.getByRole('progressbar').style.width).toBe('12.5%');
     expect(screen.getByRole('progressbar').parentElement.style.width).toBe('200px');
     expect(screen.getByRole('progressbar').parentElement.style.maxWidth).toBe('200px');
