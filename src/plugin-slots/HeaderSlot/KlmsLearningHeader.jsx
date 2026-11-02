@@ -9,7 +9,7 @@ import { Dropdown } from '@openedx/paragon';
 import AnonymousUserMenu from '@edx/frontend-component-header/dist/learning-header/AnonymousUserMenu';
 import LogoSlot from '@edx/frontend-component-header/dist/plugin-slots/LogoSlot';
 import CourseInfoSlot from '@edx/frontend-component-header/dist/plugin-slots/CourseInfoSlot';
-import LearningHeaderActionsSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningHeaderActionsSlot';
+import HeaderNotificationsSlot from '@edx/frontend-component-header/dist/plugin-slots/HeaderNotificationsSlot';
 import LearningUserMenuToggleSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningUserMenuToggleSlot';
 import LearningUserMenuSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningUserMenuSlot';
 
@@ -82,7 +82,7 @@ const KlmsLearningHeader = ({
         </div>
         {showUserDropdown && authenticatedUser && (
           <>
-            <LearningHeaderActionsSlot />
+            <HeaderNotificationsSlot />
             <KlmsUserMenu username={authenticatedUser.username} />
           </>
         )}
