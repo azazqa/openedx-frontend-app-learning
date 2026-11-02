@@ -185,7 +185,7 @@ const Sequence = ({
 
   const defaultContent = (
     <>
-      <div className="sequence-container d-inline-flex flex-row w-100">
+      <div className="sequence-container d-flex flex-column flex-xl-row w-100">
         <CourseOutlineSidebarTriggerSlot
           sectionId={section ? section.id : null}
           sequenceId={sequenceId}

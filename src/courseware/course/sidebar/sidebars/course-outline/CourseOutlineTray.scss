@@ -3,6 +3,13 @@
     max-width: 100%;
     position: relative;
     flex-shrink: 0;
+
+    // 넓은 화면에서는 목차가 내용 왼쪽에 붙는다. 그보다 좁으면 가로 폭을 꽉 채워
+    // 내용 위에 두고, 내용이 오른쪽으로 밀려 나가지 않게 한다.
+    @media (--pgn-size-breakpoint-max-width-lg) {
+        width: 100%;
+        margin-right: 0;
+    }
 }
 
 .outline-sidebar {

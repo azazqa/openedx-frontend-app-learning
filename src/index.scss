@@ -79,6 +79,11 @@
 }
 
 .sequence {
+  @media (--pgn-size-breakpoint-max-width-lg) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   @media (--pgn-size-breakpoint-min-width-sm) {
     border: solid 1px #eaeaea;
     border-radius: 4px;
