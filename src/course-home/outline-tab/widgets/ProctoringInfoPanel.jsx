@@ -19,6 +19,9 @@ const ProctoringInfoPanel = () => {
   const {
     username,
   } = useModel('courseHomeMeta', courseId);
+  const {
+    enableProctoredExams,
+  } = useModel('outline', courseId);
   const dispatch = useDispatch();
 
   const [link, setLink] = useState('');
@@ -101,6 +104,10 @@ const ProctoringInfoPanel = () => {
   }
 
   useEffect(() => {
+    if (!enableProctoredExams) {
+      dispatch(fetchProctoringInfoResolved());
+      return undefined;
+    }
     getProctoringInfoData(courseId, username)
       .then(
         response => {
@@ -130,8 +137,9 @@ const ProctoringInfoPanel = () => {
       .finally(() => {
         dispatch(fetchProctoringInfoResolved());
       });
+    return undefined;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enableProctoredExams]);
 
   let onboardingExamButton = null;
 

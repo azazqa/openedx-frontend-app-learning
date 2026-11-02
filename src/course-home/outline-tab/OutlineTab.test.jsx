@@ -145,21 +145,17 @@ describe('Outline Tab', () => {
     it('handles expand/collapse all button click', async () => {
       const user = userEvent.setup();
       await fetchAndRender();
-      // Button renders as "Expand All"
-      const expandButton = screen.getByRole('button', { name: 'Expand all' });
+      const expandButton = screen.getByRole('button', { name: 'Collapse all' });
       expect(expandButton).toBeInTheDocument();
 
-      // Section initially renders collapsed
       const collapsedSectionNode = screen.getByRole('button', { name: /section/ });
-      expect(collapsedSectionNode).toHaveAttribute('aria-expanded', 'false');
+      expect(collapsedSectionNode).toHaveAttribute('aria-expanded', 'true');
 
-      // Click to expand section
-      await user.click(expandButton);
-      await waitFor(() => expect(collapsedSectionNode).toHaveAttribute('aria-expanded', 'true'));
-
-      // Click to collapse section
       await user.click(expandButton);
       await waitFor(() => expect(collapsedSectionNode).toHaveAttribute('aria-expanded', 'false'));
+
+      await user.click(expandButton);
+      await waitFor(() => expect(collapsedSectionNode).toHaveAttribute('aria-expanded', 'true'));
     });
 
     it('displays correct icon for complete assignment', async () => {
@@ -296,7 +292,7 @@ describe('Outline Tab', () => {
       it('dismisses message', async () => {
         expect(screen.getByTestId('alert-container-welcome')).toBeInTheDocument();
         const dismissButton = screen.queryByRole('button', { name: 'Dismiss' });
-        const expandButton = screen.queryByRole('button', { name: 'Expand all' });
+        const expandButton = screen.queryByRole('button', { name: 'Collapse all' });
 
         fireEvent.click(dismissButton);
 

@@ -60,7 +60,7 @@ const OutlineTab = () => {
     enableProctoredExams,
   } = useModel('outline', courseId);
 
-  const [expandAll, setExpandAll] = useState(false);
+  const [expandAll, setExpandAll] = useState(true);
   const navigate = useNavigate();
 
   const eventProperties = {

@@ -40,16 +40,11 @@ const Section: React.FC<Props> = ({
     },
   } = useModel('outline', courseId);
 
-  const [open, setOpen] = useState(defaultOpen);
+  const [open, setOpen] = useState(expand || defaultOpen);
 
   useEffect(() => {
     setOpen(expand);
   }, [expand]);
-
-  useEffect(() => {
-    setOpen(defaultOpen);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <li>

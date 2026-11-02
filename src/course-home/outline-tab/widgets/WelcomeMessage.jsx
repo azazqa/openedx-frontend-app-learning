@@ -99,7 +99,12 @@ const WelcomeMessage = ({ courseId, nextElementRef }) => {
 
 WelcomeMessage.propTypes = {
   courseId: PropTypes.string.isRequired,
-  nextElementRef: PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) }),
+  nextElementRef: PropTypes.shape({
+    current: PropTypes.oneOfType([
+      PropTypes.instanceOf(HTMLElement),
+      PropTypes.oneOf([null]),
+    ]),
+  }),
 };
 
 export default WelcomeMessage;
