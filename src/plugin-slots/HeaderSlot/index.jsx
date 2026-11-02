@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { PluginSlot } from '@openedx/frontend-plugin-framework';
 
-import { LearningHeader as Header } from '@edx/frontend-component-header';
+import Header from './KlmsLearningHeader';
 
 const HeaderSlot = ({
   courseOrg, courseNumber, courseTitle, showUserDropdown,
