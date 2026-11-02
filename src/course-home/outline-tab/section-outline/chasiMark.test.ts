@@ -1,4 +1,4 @@
-import { chasiMark, sequenceStatus } from './chasiMark';
+import { chasiMark, numberedTitle, sequenceStatus } from './chasiMark';
 
 describe('chasiMark', () => {
   it('keeps the Open edX check outside a refund course', () => {
@@ -18,6 +18,11 @@ describe('chasiMark', () => {
   it('uses the in-progress mark below half', () => {
     expect(chasiMark(true, '1.3')).toBe('progress');
     expect(chasiMark(true, '49.9')).toBe('progress');
+  });
+
+  it('numbers a progress lesson and leaves other sequences alone', () => {
+    expect(numberedTitle('첫인상 3초', 1)).toBe('1. 첫인상 3초');
+    expect(numberedTitle('시험', undefined)).toBe('시험');
   });
 
   it('uses the check at half and above', () => {

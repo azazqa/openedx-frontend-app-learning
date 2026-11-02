@@ -17,6 +17,14 @@ export function chasiMark(refund: boolean, percent?: string): ChasiMark {
   return 'progress';
 }
 
+/** 진도 차시만 계획 번호를 제목 앞에 붙입니다. */
+export function numberedTitle(title: string, chasi?: number): string {
+  if (chasi === undefined) {
+    return title;
+  }
+  return `${chasi}. ${title}`;
+}
+
 export function sequenceStatus(mark: ChasiMark, edxComplete: boolean): SequenceStatus {
   if (mark === 'progress') {
     return 'progress';

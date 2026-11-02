@@ -7,8 +7,8 @@ import { CheckCircle, CheckCircleOutline, IncompleteCircle } from '@openedx/para
 import EffortEstimate from '../../../shared/effort-estimate';
 import messages from '../messages';
 import { useContextId } from '../../../data/hooks';
-import { useChasiSequenceMark } from './ChasiProgress';
-import { sequenceStatus } from './chasiMark';
+import { useChasiProgress, useChasiSequenceMark } from './ChasiProgress';
+import { numberedTitle, sequenceStatus } from './chasiMark';
 
 interface Props {
   complete: boolean;
@@ -27,8 +27,9 @@ const SequenceTitle: React.FC<Props> = ({
 }) => {
   const intl = useIntl();
   const courseId = useContextId();
-  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{title}</Link>;
-  const displayTitle = showLink ? coursewareUrl : title;
+  const heading = numberedTitle(title, useChasiProgress(id)?.chasi);
+  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{heading}</Link>;
+  const displayTitle = showLink ? coursewareUrl : heading;
   const status = sequenceStatus(useChasiSequenceMark(id), complete);
   const label = {
     done: messages.completedAssignment,

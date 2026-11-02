@@ -10,6 +10,7 @@ import { chasiMark, ChasiMark } from './chasiMark';
 export interface ChasiRate {
   seconds: number;
   percent: string;
+  chasi?: number;
 }
 
 interface ChasiProgressValue {
