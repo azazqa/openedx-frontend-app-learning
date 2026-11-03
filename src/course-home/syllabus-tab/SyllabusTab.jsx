@@ -29,6 +29,7 @@ export function syllabusIFrameUrl(courseId) {
 /**
  * Modulestore StaticTab(syllabus) student_view 를 LMS XBlock iframe 으로 표시한다.
  * 본문 HTML·/klms/brand/syllabus.css|js 는 LMS 가 그대로 제공한다.
+ * plugin.resize 로 높이를 맞추고 scrolling=no 로 내부 스크롤을 막는다.
  */
 const SyllabusTab = () => {
   const { courseId } = useSelector(state => state.courseHome);
@@ -42,11 +43,16 @@ const SyllabusTab = () => {
   return (
     <iframe
       src={src}
-      className="d-flex w-100 border-0"
-      height={iFrameHeight}
-      style={{ minHeight: '40rem' }}
       title="강의 계획서"
       data-testid="syllabus-tab-iframe"
+      scrolling="no"
+      className="w-100 border-0 d-block"
+      style={{
+        width: '100%',
+        overflow: 'hidden',
+        height: iFrameHeight ? `${iFrameHeight}px` : undefined,
+        minHeight: iFrameHeight ? undefined : '20rem',
+      }}
     />
   );
 };
