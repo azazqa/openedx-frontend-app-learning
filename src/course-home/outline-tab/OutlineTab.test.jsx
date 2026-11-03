@@ -106,12 +106,13 @@ describe('Outline Tab', () => {
   });
 
   describe('Course Outline', () => {
-    it('displays link to resume course before the first visit', async () => {
+    it('hides link to resume course before the first visit', async () => {
       await fetchAndRender();
-      expect(screen.getByRole('link', { name: messages.resume.defaultMessage })).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: messages.resume.defaultMessage })).not.toBeInTheDocument();
+      expect(screen.queryByTestId('start-resume-card')).not.toBeInTheDocument();
     });
 
-    it('displays link to resume course', async () => {
+    it('hides link to resume course', async () => {
       setTabData({
         resume_course: {
           has_visited_course: true,
@@ -119,7 +120,8 @@ describe('Outline Tab', () => {
         },
       });
       await fetchAndRender();
-      expect(screen.getByRole('link', { name: 'Resume course' })).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Resume course' })).not.toBeInTheDocument();
+      expect(screen.queryByTestId('start-resume-card')).not.toBeInTheDocument();
     });
 
     it('expands section that contains resume block', async () => {
