@@ -43,6 +43,8 @@ pull_translations:
 	           translations/frontend-app-learning/src/i18n/messages:frontend-app-learning
 
 	$(intl_imports) frontend-platform paragon frontend-component-header frontend-component-footer frontend-lib-special-exams frontend-app-learning
+	# KLMS: intl-imports regenerates index.js; re-attach local message overrides.
+	@node -e 'const fs=require("fs"); const p="src/i18n/index.js"; let s=fs.readFileSync(p,"utf8"); if(!s.includes("klmsI18nOverrides")){ s="import klmsI18nOverrides from '\''./overrides'\'';\n"+s.replace("export default [","export default [\n  klmsI18nOverrides,"); fs.writeFileSync(p,s); }'
 
 
 # This target is used by Travis.

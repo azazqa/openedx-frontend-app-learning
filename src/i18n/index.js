@@ -1,7 +1,5 @@
-import koMessages from './overrides/ko.json';
+import klmsI18nOverrides from './overrides';
 
 export default [
-  {
-    ko: koMessages,
-  },
+  klmsI18nOverrides,
 ];
