@@ -4,7 +4,6 @@ import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import { getLoginRedirectUrl } from '@edx/frontend-platform/auth';
 import { Alert, Hyperlink } from '@openedx/paragon';
 
-import enrollmentMessages from '../../../../alerts/enrollment-alert/messages';
 import genericMessages from '../../../../generic/messages';
 import outlineMessages from '../../messages';
 import { useModel } from '../../../../generic/model-store';
@@ -32,25 +31,17 @@ const PrivateCourseAlert = ({ payload }) => {
   return (
     <Alert variant="light" data-testid="private-course-alert">
       {anonymousUser && (
-        <>
-          <p className="font-weight-bold">
-            {intl.formatMessage(enrollmentMessages.alert)}
-          </p>
-          <FormattedMessage
-            id="learning.privateCourse.signIn"
-            description="Prompts the user to sign in to see course content."
-            defaultMessage="{signIn} to see course content."
-            values={{
-              signIn,
-            }}
-          />
-        </>
+        <FormattedMessage
+          id="learning.privateCourse.signIn"
+          description="Prompts the user to sign in to see course content."
+          defaultMessage="{signIn} to see course content."
+          values={{
+            signIn,
+          }}
+        />
       )}
       {!anonymousUser && (
-        <>
-          <p className="font-weight-bold">{intl.formatMessage(outlineMessages.welcomeTo)} {title}</p>
-          {intl.formatMessage(enrollmentMessages.alert)}
-        </>
+        <p className="font-weight-bold mb-0">{intl.formatMessage(outlineMessages.welcomeTo)} {title}</p>
       )}
     </Alert>
   );

@@ -595,10 +595,10 @@ describe('Outline Tab', () => {
         expect(alert).toHaveAttribute('role', 'alert');
 
         expect(screen.queryByRole('button', { name: 'Enroll now' })).not.toBeInTheDocument();
-        expect(screen.getByText('You must be enrolled in the course to see course content.')).toBeInTheDocument();
+        expect(screen.queryByText('You must be enrolled in the course to see course content.')).not.toBeInTheDocument();
       });
 
-      it('displays alert for unenrolled user without enroll button', async () => {
+      it('displays alert for unenrolled user without enroll messaging', async () => {
         await fetchAndRender();
 
         const alert = await screen.findByTestId('private-course-alert');
@@ -606,7 +606,7 @@ describe('Outline Tab', () => {
 
         expect(screen.queryByRole('button', { name: 'Enroll now' })).not.toBeInTheDocument();
         expect(screen.queryByText('to access the full course')).not.toBeInTheDocument();
-        expect(screen.getByText('You must be enrolled in the course to see course content.')).toBeInTheDocument();
+        expect(screen.queryByText('You must be enrolled in the course to see course content.')).not.toBeInTheDocument();
       });
     });
 

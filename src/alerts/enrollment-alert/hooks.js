@@ -16,12 +16,11 @@ export function useEnrollmentAlert(courseId) {
   const enrolledUser = course && course.isEnrolled !== undefined && course.isEnrolled;
   const privateOutline = outline && outline.courseBlocks && !outline.courseBlocks.courses;
   /**
-   * This alert should render if
-   *    1. the user is not enrolled,
-   *    2. the user is authenticated, AND
-   *    3. the course is private.
+   * Enrollment CTA was removed. Keep this alert only for staff viewing
+   * a private outline while not enrolled.
    */
-  const isVisible = !enrolledUser && authenticatedUser !== null && privateOutline;
+  const isStaff = course && course.isStaff;
+  const isVisible = !enrolledUser && authenticatedUser !== null && privateOutline && isStaff;
   const payload = useMemo(() => ({
     courseId,
     extraText: outline && outline.enrollAlert ? outline.enrollAlert.extraText : '',

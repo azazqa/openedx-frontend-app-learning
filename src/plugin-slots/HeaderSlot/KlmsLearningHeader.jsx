@@ -3,17 +3,29 @@ import PropTypes from 'prop-types';
 
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { getConfig } from '@edx/frontend-platform';
+import { getLoginRedirectUrl } from '@edx/frontend-platform/auth';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Dropdown } from '@openedx/paragon';
-import AnonymousUserMenu from '@edx/frontend-component-header/dist/learning-header/AnonymousUserMenu';
 import LogoSlot from '@edx/frontend-component-header/dist/plugin-slots/LogoSlot';
 import CourseInfoSlot from '@edx/frontend-component-header/dist/plugin-slots/CourseInfoSlot';
 import HeaderNotificationsSlot from '@edx/frontend-component-header/dist/plugin-slots/HeaderNotificationsSlot';
+import LearningLoggedOutItemsSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningLoggedOutItemsSlot';
 import LearningUserMenuToggleSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningUserMenuToggleSlot';
 import LearningUserMenuSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningUserMenuSlot';
 
 import messages from './messages';
+
+/** Login only — no account registration CTA. */
+const KlmsAnonymousUserMenu = () => {
+  const intl = useIntl();
+  const buttonsInfo = [{
+    message: intl.formatMessage(messages.signIn),
+    href: getLoginRedirectUrl(global.location.href),
+    variant: 'primary',
+  }];
+  return <LearningLoggedOutItemsSlot buttonsInfo={buttonsInfo} />;
+};
 
 const KlmsUserMenu = ({ username }) => {
   const intl = useIntl();
@@ -86,7 +98,7 @@ const KlmsLearningHeader = ({
             <KlmsUserMenu username={authenticatedUser.username} />
           </>
         )}
-        {showUserDropdown && !authenticatedUser && <AnonymousUserMenu />}
+        {showUserDropdown && !authenticatedUser && <KlmsAnonymousUserMenu />}
       </div>
     </header>
   );

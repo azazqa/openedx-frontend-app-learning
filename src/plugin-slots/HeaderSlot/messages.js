@@ -21,6 +21,11 @@ const messages = defineMessages({
     defaultMessage: '로그아웃',
     description: '사용자 메뉴의 로그아웃 링크',
   },
+  signIn: {
+    id: 'klms.header.anonymous.signIn',
+    defaultMessage: '로그인',
+    description: 'Header login button for anonymous users (registration CTA removed).',
+  },
   skipNavLink: {
     id: 'header.navigation.skipNavLink',
     defaultMessage: 'Skip to main content.',
