@@ -18,8 +18,27 @@ export function isSyllabusTab(tab) {
   return /\/syllabus\/?$/.test(url);
 }
 
-export function learningSyllabusUrl(courseId) {
-  return `${getConfig().BASE_URL}/course/${courseId}/syllabus`;
+/**
+ * Tutor MFE_CONFIG 의 BASE_URL 이 스킴 없는 호스트만 주는 경우가 있어,
+ * 같은 payload 의 courseware(강의) MFE URL 에서 /home → /syllabus 로 만든다.
+ */
+export function learningSyllabusUrl(courseId, tabs = []) {
+  const courseware = tabs.find(t => t.tabId === 'courseware');
+  if (courseware?.url && courseware.url.includes('/course/')) {
+    if (/\/home\/?$/.test(courseware.url)) {
+      return courseware.url.replace(/\/home\/?$/, '/syllabus');
+    }
+    return `${courseware.url.replace(/\/$/, '')}/syllabus`;
+  }
+  const base = (getConfig().BASE_URL || '').replace(/\/$/, '');
+  if (/^https?:\/\//.test(base)) {
+    return `${base}/course/${courseId}/syllabus`;
+  }
+  const host = base.replace(/^\/+/, '');
+  const origin = host
+    ? `https://${host}`
+    : (typeof window !== 'undefined' ? window.location.origin : '');
+  return `${origin}/learning/course/${courseId}/syllabus`;
 }
 
 /**
@@ -39,7 +58,7 @@ function normalizeCourseHomeCourseMetadata(metadata, rootSlug) {
       // use within the MFE to differentiate between course home and courseware.
       slug: tab.tabId === 'courseware' ? rootSlug : tab.tabId,
       title: tab.title,
-      url: isSyllabusTab(tab) ? learningSyllabusUrl(courseId) : tab.url,
+      url: isSyllabusTab(tab) ? learningSyllabusUrl(courseId, data.tabs) : tab.url,
     })),
     isMasquerading: data.originalUserIsStaff && !data.isStaff,
   };

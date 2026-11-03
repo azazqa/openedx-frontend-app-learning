@@ -49,7 +49,16 @@ describe('syllabus tab URL rewrite', () => {
     const data = await getCourseHomeCourseMetadata(courseId, 'outline');
     expect(data.tabs[0].slug).toBe('outline');
     expect(data.tabs[1].slug).toBe('static_tab_syllabus');
-    expect(data.tabs[1].url).toBe(learningSyllabusUrl(courseId));
     expect(data.tabs[1].url).toBe(`${getConfig().BASE_URL}/course/${courseId}/syllabus`);
+    expect(data.tabs[1].url).toBe(learningSyllabusUrl(courseId, [
+      { tabId: 'courseware', url: `${getConfig().BASE_URL}/course/${courseId}/home` },
+    ]));
+  });
+
+  it('rewrites from courseware MFE home URL when BASE_URL has no scheme', () => {
+    const home = `https://apps.example.com/learning/course/${courseId}/home`;
+    expect(learningSyllabusUrl(courseId, [
+      { tabId: 'courseware', url: home },
+    ])).toBe(`https://apps.example.com/learning/course/${courseId}/syllabus`);
   });
 });
