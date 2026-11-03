@@ -4,6 +4,25 @@ import { logInfo } from '@edx/frontend-platform/logging';
 import { appendBrowserTimezoneToUrl } from '../../utils';
 
 /**
+ * KLMS 강의 계획서 StaticTab(url_slug=syllabus)을 Learning MFE 라우트로 보낸다.
+ * LMS tab_id 는 static_tab_syllabus 이다.
+ */
+export function isSyllabusTab(tab) {
+  if (!tab) {
+    return false;
+  }
+  if (tab.tabId === 'static_tab_syllabus' || tab.slug === 'static_tab_syllabus') {
+    return true;
+  }
+  const url = tab.url || '';
+  return /\/syllabus\/?$/.test(url);
+}
+
+export function learningSyllabusUrl(courseId) {
+  return `${getConfig().BASE_URL}/course/${courseId}/syllabus`;
+}
+
+/**
  * Tweak the metadata for consistency
  * @param metadata the data to normalize
  * @param rootSlug either 'courseware' or 'outline' depending on the context
@@ -11,6 +30,7 @@ import { appendBrowserTimezoneToUrl } from '../../utils';
  */
 function normalizeCourseHomeCourseMetadata(metadata, rootSlug) {
   const data = camelCaseObject(metadata);
+  const courseId = data.courseId;
   return {
     ...data,
     tabs: data.tabs.map(tab => ({
@@ -19,7 +39,7 @@ function normalizeCourseHomeCourseMetadata(metadata, rootSlug) {
       // use within the MFE to differentiate between course home and courseware.
       slug: tab.tabId === 'courseware' ? rootSlug : tab.tabId,
       title: tab.title,
-      url: tab.url,
+      url: isSyllabusTab(tab) ? learningSyllabusUrl(courseId) : tab.url,
     })),
     isMasquerading: data.originalUserIsStaff && !data.isStaff,
   };

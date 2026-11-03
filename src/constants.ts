@@ -8,6 +8,8 @@ export const DECODE_ROUTES = {
     '/course/:courseId/progress/:targetUserId/',
     '/course/:courseId/progress',
   ],
+  /** KLMS StaticTab url_slug=syllabus → LMS tab_id static_tab_syllabus */
+  SYLLABUS: '/course/:courseId/syllabus',
   COURSE_END: '/course/:courseId/course-end',
   COURSEWARE: [
     '/course/:courseId/:sequenceId/:unitId',

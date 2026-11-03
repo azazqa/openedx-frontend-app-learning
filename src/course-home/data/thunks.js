@@ -114,6 +114,10 @@ export function fetchDiscussionTab(courseId) {
   return fetchTab(courseId, 'discussion');
 }
 
+export function fetchSyllabusTab(courseId) {
+  return fetchTab(courseId, 'syllabus');
+}
+
 export function dismissWelcomeMessage(courseId) {
   return async () => postDismissWelcomeMessage(courseId);
 }

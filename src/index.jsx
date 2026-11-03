@@ -9,7 +9,7 @@ import { createRoot } from 'react-dom/client';
 import { Routes, Route } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
-import { fetchDiscussionTab, fetchLiveTab } from './course-home/data/thunks';
+import { fetchDiscussionTab, fetchLiveTab, fetchSyllabusTab } from './course-home/data/thunks';
 import DiscussionTab from './course-home/discussion-tab/DiscussionTab';
 
 import messages from './i18n';
@@ -23,6 +23,7 @@ import CoursewareRedirectLandingPage from './courseware/CoursewareRedirectLandin
 import DatesTab from './course-home/dates-tab';
 import GoalUnsubscribe from './course-home/goal-unsubscribe';
 import ProgressTab from './course-home/progress-tab/ProgressTab';
+import SyllabusTab from './course-home/syllabus-tab';
 import { TabContainer } from './tab-page';
 
 import { fetchDatesTab, fetchOutlineTab, fetchProgressTab } from './course-home/data';
@@ -100,6 +101,16 @@ subscribe(APP_READY, () => {
                       <DecodePageRoute>
                         <TabContainer tab="discussion" fetch={fetchDiscussionTab} slice="courseHome">
                           <DiscussionTab />
+                        </TabContainer>
+                      </DecodePageRoute>
+                    )}
+                  />
+                  <Route
+                    path={DECODE_ROUTES.SYLLABUS}
+                    element={(
+                      <DecodePageRoute>
+                        <TabContainer tab="static_tab_syllabus" fetch={fetchSyllabusTab} slice="courseHome">
+                          <SyllabusTab />
                         </TabContainer>
                       </DecodePageRoute>
                     )}
