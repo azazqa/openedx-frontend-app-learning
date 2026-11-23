@@ -26,6 +26,13 @@ body:has(.sequence-container [data-testid="exam-timer"]) .klms-outer-exam-timer 
   display: none !important;
 }
 
+.klms-exam-jump-link {
+  margin-right: 0.75rem;
+  white-space: nowrap;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .klms-exam-submit-hint {
   margin: 0.5rem 0 0;
   font-size: 0.875rem;

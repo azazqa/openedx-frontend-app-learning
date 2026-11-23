@@ -25,5 +25,6 @@
   "exam.submittedExamInstructions.title": "제한 시간 시험을 제출했습니다.",
   "exam.submittedExamInstructions.overtimeTitle": "시험 시간이 끝났습니다. 시험이 제출되었으며, 작성한 답안은 채점됩니다.",
 
-  "klms.exam.submitGate.hint": "모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다."
+  "klms.exam.submitGate.hint": "모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.",
+  "klms.exam.jumpToExam": "시험 바로가기"
 }

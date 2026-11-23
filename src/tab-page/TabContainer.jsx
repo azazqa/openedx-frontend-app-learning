@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { OuterExamTimer } from '@edx/frontend-lib-special-exams';
 
+import ExamSubmitGate from '../courseware/course/ExamSubmitGate';
 import TabPage from './TabPage';
 
 const TabContainer = (props) => {
@@ -47,6 +48,7 @@ const TabContainer = (props) => {
           <OuterExamTimer courseId={courseId} />
         </div>
       )}
+      <ExamSubmitGate />
       {children}
     </TabPage>
   );
