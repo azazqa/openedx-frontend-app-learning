@@ -42,7 +42,11 @@ const TabContainer = (props) => {
       courseStatus={courseStatus}
       metadataModel={`${slice}Meta`}
     >
-      {courseId && <OuterExamTimer courseId={courseId} />}
+      {courseId && (
+        <div className="klms-outer-exam-timer">
+          <OuterExamTimer courseId={courseId} />
+        </div>
+      )}
       {children}
     </TabPage>
   );

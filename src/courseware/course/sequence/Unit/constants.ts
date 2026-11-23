@@ -15,6 +15,7 @@ export const messageTypes = {
   resize: 'plugin.resize',
   videoFullScreen: 'plugin.videoFullScreen',
   autoAdvance: 'plugin.autoAdvance',
+  examProblemsStatus: 'klms.examProblemsStatus',
 } as const;
 
 export default {

@@ -1,0 +1,32 @@
+/* KLMS 시험 알림바 — 안내 문구·시간 숨기기 제거, 남은 시간만 상단 고정 */
+
+.alert:has([data-testid="exam-timer"]) {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  margin-bottom: 0.75rem;
+}
+
+/* "You are taking … / 더 보기" 안내 칸 */
+[data-testid="exam-timer"] > div:first-child {
+  display: none !important;
+}
+
+/* 시간 hide/show 토글 */
+#toggle_timer {
+  display: none !important;
+}
+
+.exam-timer-clock {
+  min-width: 110px !important;
+}
+
+/* 탭 상단 OuterExamTimer 와 차시 안 타이머가 겹치면 탭 상단만 숨김 */
+body:has(.sequence-container [data-testid="exam-timer"]) .klms-outer-exam-timer {
+  display: none !important;
+}
+
+.klms-exam-submit-hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+}

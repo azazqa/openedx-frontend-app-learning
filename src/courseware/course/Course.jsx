@@ -14,6 +14,7 @@ import SidebarProvider from './sidebar/SidebarContextProvider';
 import { RightSidebarTriggerSlot } from '../../plugin-slots/RightSidebarTriggerSlot';
 import { CelebrationModal, shouldCelebrateOnSectionLoad, WeeklyGoalCelebrationModal } from './celebration';
 import ContentTools from './content-tools';
+import ExamSubmitGate from './ExamSubmitGate';
 import Sequence from './sequence';
 import { CourseOutlineMobileSidebarTriggerSlot } from '../../plugin-slots/CourseOutlineMobileSidebarTriggerSlot';
 import { CourseBreadcrumbsSlot } from '../../plugin-slots/CourseBreadcrumbsSlot';
@@ -101,6 +102,7 @@ const Course = ({
         </div>
 
         <AlertList topic="sequence" />
+        <ExamSubmitGate />
         <Sequence
           unitId={unitId}
           sequenceId={sequenceId}

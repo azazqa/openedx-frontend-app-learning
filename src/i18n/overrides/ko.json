@@ -2,5 +2,28 @@
   "learning.logistration.alert.signIn": "수업 내용을 보려면 {signIn}하세요.",
   "learning.privateCourse.signIn": "수업 내용을 보려면 {signIn}하세요.",
   "learning.logistration.login": "로그인",
-  "general.signIn.sentenceCase": "로그인"
+  "general.signIn.sentenceCase": "로그인",
+
+  "exam.examTimer.endExamBtn": "시험 종료",
+  "exam.aria.examTimerAndEndExamButton": "시험 남은 시간과 시험 종료 버튼",
+  "exam.aria.hideTimer": "타이머 숨기기",
+  "exam.aria.showTimer": "타이머 보이기",
+
+  "exam.startExamInstructions.title": "제한 시간 시험입니다 ({examDuration})",
+  "exam.startExamInstructions.text1": "이 시험에는 제한 시간이 있습니다. ",
+  "exam.startExamInstructions.text2": "제한 시간 안에 문제를 모두 풀어야 합니다. ",
+  "exam.startExamInstructions.text3": "「이 시험을 시작할 준비가 되었습니다」를 누르면 {examDuration} 안에 시험을 마치고 제출해야 합니다.",
+  "exam.startExamInstructions.startExamButtonText": "이 시험을 시작할 준비가 되었습니다",
+  "exam.startExamInstructions.footerTitle": "시험 시간을 더 받을 수 있나요?",
+  "exam.startExamInstructions.footerText": "장애가 있는 경우 제한 시간 시험을 더 길게 볼 수 있습니다. 추가 시간에 대해서는 과정 운영팀에 문의하세요.",
+
+  "exam.submitExamInstructions.title": "시험을 제출할까요?",
+  "exam.submitExamInstructions.warningText": "시험 전체를 제출하기 전에 각 문항의 「제출」을 눌렀는지 확인하세요.",
+  "exam.submitExamInstructions.text": "시험을 제출하면 채점이 진행됩니다.",
+  "exam.submitExamInstructions.submit": "예, 시험을 제출합니다",
+
+  "exam.submittedExamInstructions.title": "제한 시간 시험을 제출했습니다.",
+  "exam.submittedExamInstructions.overtimeTitle": "시험 시간이 끝났습니다. 시험이 제출되었으며, 작성한 답안은 채점됩니다.",
+
+  "klms.exam.submitGate.hint": "모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다."
 }
