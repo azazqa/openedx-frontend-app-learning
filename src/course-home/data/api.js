@@ -57,7 +57,8 @@ function normalizeCourseHomeCourseMetadata(metadata, rootSlug) {
       // If needed, we switch it to "outline" here for
       // use within the MFE to differentiate between course home and courseware.
       slug: tab.tabId === 'courseware' ? rootSlug : tab.tabId,
-      title: tab.title,
+      // 상단 바 「강의」 메뉴와 구분 — LMS 가 주는 Course/강의 탭 제목을 강의목록으로 통일합니다.
+      title: tab.tabId === 'courseware' ? '강의목록' : tab.title,
       url: isSyllabusTab(tab) ? learningSyllabusUrl(courseId, data.tabs) : tab.url,
     })),
     isMasquerading: data.originalUserIsStaff && !data.isStaff,

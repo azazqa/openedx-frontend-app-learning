@@ -8,7 +8,25 @@
   .app-container {
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  // 상단·하단 바는 뷰포트에 고정하고, 본문만 스크롤합니다.
+  .learning-shell {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .learning-shell__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
   }
 
   main {
@@ -20,8 +38,12 @@
     flex-direction: column;
   }
 
-  header {
+  header.learning-header {
     flex: 0 0 auto;
+    z-index: 1030;
+    background-color: var(--pgn-color-white, #fff);
+    border-top: none;
+    box-shadow: none;
 
     .logo {
       display: flex;
@@ -44,10 +66,32 @@
         object-fit: contain;
       }
     }
+
+    // 대시보드·카탈로그와 같은 상단 「강의」「과정」 링크
+    .nav .nav-link {
+      background: none;
+      border-bottom: 2px solid transparent;
+      color: var(--pgn-color-text-base, #212529);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: -5px;
+      text-decoration: none;
+    }
+
+    .nav .nav-link:hover,
+    .nav .nav-link.active {
+      background: none;
+      border-bottom-color: var(--pgn-color-text-base, #212529);
+      color: var(--pgn-color-text-base, #212529);
+      text-decoration: none;
+    }
   }
 
-  footer {
-    flex: 0;
+  footer,
+  .footer {
+    flex: 0 0 auto;
+    z-index: 1020;
+    background-color: var(--pgn-color-light-100, #fcfcfc);
   }
 }
 

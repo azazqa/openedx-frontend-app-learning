@@ -28,32 +28,36 @@ const CourseAccessErrorPage = () => {
 
   if (courseStatus === LOADING) {
     return (
-      <>
+      <div className="learning-shell">
         <HeaderSlot />
-        <PageLoading
-          srMessage={intl.formatMessage(messages.loading)}
-        />
+        <div className="learning-shell__body">
+          <PageLoading
+            srMessage={intl.formatMessage(messages.loading)}
+          />
+        </div>
         <FooterSlot />
-      </>
+      </div>
     );
   }
   if (courseStatus === LOADED) {
     return <Navigate to={`/redirect/home/${courseId}`} replace />;
   }
   return (
-    <>
+    <div className="learning-shell">
       <HeaderSlot />
-      <main id="main-content" className="container my-5 text-center" data-testid="access-denied-main">
-        <AlertList
-          topic="outline"
-          className="mx-5 mt-3"
-          customAlerts={{
-            ...activeEnterpriseAlert,
-          }}
-        />
-      </main>
+      <div className="learning-shell__body">
+        <main id="main-content" className="container my-5 text-center" data-testid="access-denied-main">
+          <AlertList
+            topic="outline"
+            className="mx-5 mt-3"
+            customAlerts={{
+              ...activeEnterpriseAlert,
+            }}
+          />
+        </main>
+      </div>
       <FooterSlot />
-    </>
+    </div>
   );
 };
 

@@ -8,7 +8,6 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Dropdown } from '@openedx/paragon';
 import LogoSlot from '@edx/frontend-component-header/dist/plugin-slots/LogoSlot';
-import CourseInfoSlot from '@edx/frontend-component-header/dist/plugin-slots/CourseInfoSlot';
 import HeaderNotificationsSlot from '@edx/frontend-component-header/dist/plugin-slots/HeaderNotificationsSlot';
 import LearningLoggedOutItemsSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningLoggedOutItemsSlot';
 import LearningUserMenuToggleSlot from '@edx/frontend-component-header/dist/plugin-slots/LearningUserMenuToggleSlot';
@@ -68,11 +67,26 @@ KlmsUserMenu.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const KlmsLearningHeader = ({
-  courseOrg, courseNumber, courseTitle, showUserDropdown,
-}) => {
+/**
+ * KLMS: 로고 옆 과정 코드·과정명 대신 대시보드/카탈로그와 같은 「강의」「과정」 메뉴를 둡니다.
+ */
+const KlmsLearningHeader = ({ showUserDropdown }) => {
   const intl = useIntl();
   const { authenticatedUser } = useContext(AppContext);
+  const config = getConfig();
+  const catalogOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+  const mainMenu = [
+    {
+      key: 'courses',
+      href: `${config.LMS_BASE_URL}/dashboard`,
+      content: intl.formatMessage(messages.courses),
+    },
+    {
+      key: 'catalog',
+      href: `${catalogOrigin}/catalog/courses`,
+      content: intl.formatMessage(messages.catalog),
+    },
+  ];
 
   return (
     <header className="learning-header">
@@ -81,17 +95,17 @@ const KlmsLearningHeader = ({
       </a>
       <div className="container-xl py-2 d-flex align-items-center">
         <LogoSlot
-          href={`${getConfig().LMS_BASE_URL}/dashboard`}
-          src={getConfig().LOGO_URL}
-          alt={getConfig().SITE_NAME}
+          href={`${config.LMS_BASE_URL}/dashboard`}
+          src={config.LOGO_URL}
+          alt={config.SITE_NAME}
         />
-        <div className="flex-grow-1 course-title-lockup d-flex" style={{ lineHeight: 1 }}>
-          <CourseInfoSlot
-            courseOrg={courseOrg}
-            courseNumber={courseNumber}
-            courseTitle={courseTitle}
-          />
-        </div>
+        <nav className="nav flex-grow-1 align-items-center" aria-label="main">
+          {mainMenu.map((item) => (
+            <a key={item.key} className="nav-link" href={item.href}>
+              {item.content}
+            </a>
+          ))}
+        </nav>
         {showUserDropdown && authenticatedUser && (
           <>
             <HeaderNotificationsSlot />
@@ -105,16 +119,10 @@ const KlmsLearningHeader = ({
 };
 
 KlmsLearningHeader.propTypes = {
-  courseOrg: PropTypes.string,
-  courseNumber: PropTypes.string,
-  courseTitle: PropTypes.string,
   showUserDropdown: PropTypes.bool,
 };
 
 KlmsLearningHeader.defaultProps = {
-  courseOrg: null,
-  courseNumber: null,
-  courseTitle: null,
   showUserDropdown: true,
 };
 

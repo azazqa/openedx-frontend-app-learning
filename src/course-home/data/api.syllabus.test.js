@@ -48,6 +48,7 @@ describe('syllabus tab URL rewrite', () => {
 
     const data = await getCourseHomeCourseMetadata(courseId, 'outline');
     expect(data.tabs[0].slug).toBe('outline');
+    expect(data.tabs[0].title).toBe('강의목록');
     expect(data.tabs[1].slug).toBe('static_tab_syllabus');
     expect(data.tabs[1].url).toBe(`${getConfig().BASE_URL}/course/${courseId}/syllabus`);
     expect(data.tabs[1].url).toBe(learningSyllabusUrl(courseId, [

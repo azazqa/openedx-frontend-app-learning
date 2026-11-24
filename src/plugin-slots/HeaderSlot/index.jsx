@@ -19,12 +19,7 @@ const HeaderSlot = ({
       showUserDropdown,
     }}
   >
-    <Header
-      courseOrg={courseOrg}
-      courseNumber={courseNumber}
-      courseTitle={courseTitle}
-      showUserDropdown={showUserDropdown}
-    />
+    <Header showUserDropdown={showUserDropdown} />
   </PluginSlot>
 );
 

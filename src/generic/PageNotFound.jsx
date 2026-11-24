@@ -16,33 +16,35 @@ const PageNotFound = () => {
   sendTrackEvent('edx.ui.lms.page_not_found', { location });
 
   return (
-    <>
+    <div className="learning-shell">
       <HeaderSlot />
-      <main
-        id="main-content"
-        className="main-content d-flex justify-content-center align-items-center flex-column"
-        style={{
-          height: '50vh',
-        }}
-      >
-        <h1 className="h3">
-          {formatMessage(messages.pageNotFoundHeader)}
-        </h1>
-        <p>
-          {formatMessage(
-            messages.pageNotFoundBody,
-            {
-              homepageLink: (
-                <Hyperlink destination={getConfig().LMS_BASE_URL}>
-                  {formatMessage(messages.homepageLink)}
-                </Hyperlink>
-              ),
-            },
-          )}
-        </p>
-      </main>
+      <div className="learning-shell__body">
+        <main
+          id="main-content"
+          className="main-content d-flex justify-content-center align-items-center flex-column"
+          style={{
+            height: '50vh',
+          }}
+        >
+          <h1 className="h3">
+            {formatMessage(messages.pageNotFoundHeader)}
+          </h1>
+          <p>
+            {formatMessage(
+              messages.pageNotFoundBody,
+              {
+                homepageLink: (
+                  <Hyperlink destination={getConfig().LMS_BASE_URL}>
+                    {formatMessage(messages.homepageLink)}
+                  </Hyperlink>
+                ),
+              },
+            )}
+          </p>
+        </main>
+      </div>
       <FooterSlot />
-    </>
+    </div>
   );
 };
 

@@ -52,7 +52,7 @@ const TabPage = (props) => {
   }
 
   return (
-    <>
+    <div className="learning-shell">
       {['loaded', 'denied'].includes(courseStatus) && (
         <>
           <Toast
@@ -72,22 +72,24 @@ const TabPage = (props) => {
 
       <HeaderSlot courseOrg={org} courseNumber={number} courseTitle={title} />
 
-      {courseStatus === 'loading' && (
-        <PageLoading srMessage={intl.formatMessage(messages.loading)} />
-      )}
+      <div className="learning-shell__body">
+        {courseStatus === 'loading' && (
+          <PageLoading srMessage={intl.formatMessage(messages.loading)} />
+        )}
 
-      {['loaded', 'denied'].includes(courseStatus) && (
-        <LoadedTabPage {...props} />
-      )}
+        {['loaded', 'denied'].includes(courseStatus) && (
+          <LoadedTabPage {...props} />
+        )}
 
-      {/* courseStatus 'failed' and any other unexpected course status. */}
-      {(!['loading', 'loaded', 'denied'].includes(courseStatus)) && (
-        <p className="text-center py-5 mx-auto" style={{ maxWidth: '30em' }}>
-          {errorMessage || intl.formatMessage(messages.failure)}
-        </p>
-      )}
+        {/* courseStatus 'failed' and any other unexpected course status. */}
+        {(!['loading', 'loaded', 'denied'].includes(courseStatus)) && (
+          <p className="text-center py-5 mx-auto" style={{ maxWidth: '30em' }}>
+            {errorMessage || intl.formatMessage(messages.failure)}
+          </p>
+        )}
+      </div>
       <FooterSlot />
-    </>
+    </div>
   );
 };
 

@@ -21,6 +21,16 @@ const messages = defineMessages({
     defaultMessage: '로그아웃',
     description: '사용자 메뉴의 로그아웃 링크',
   },
+  courses: {
+    id: 'learnerVariantDashboard.course',
+    defaultMessage: '강의',
+    description: '상단 메뉴의 강의(내 강의실) 링크',
+  },
+  catalog: {
+    id: 'klms.header.courses',
+    defaultMessage: '과정',
+    description: '상단 메뉴의 과정(카탈로그) 링크. 번역 저장소의 Discover 문구를 쓰지 않습니다.',
+  },
   signIn: {
     id: 'klms.header.anonymous.signIn',
     defaultMessage: '로그인',
