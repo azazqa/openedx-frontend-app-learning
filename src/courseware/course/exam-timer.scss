@@ -37,3 +37,8 @@ body:has(.sequence-container [data-testid="exam-timer"]) .klms-outer-exam-timer 
   margin: 0.5rem 0 0;
   font-size: 0.875rem;
 }
+
+/* 시간 제한 시험 시작 안내 — 추가 시간(장애 배려) footer 숨김 */
+body:has([data-testid="exam-instructions-title"]) .footer-sequence {
+  display: none !important;
+}

@@ -14,8 +14,6 @@
   "exam.startExamInstructions.text2": "제한 시간 안에 문제를 모두 풀어야 합니다. ",
   "exam.startExamInstructions.text3": "「이 시험을 시작할 준비가 되었습니다」를 누르면 {examDuration} 안에 시험을 마치고 제출해야 합니다.",
   "exam.startExamInstructions.startExamButtonText": "이 시험을 시작할 준비가 되었습니다",
-  "exam.startExamInstructions.footerTitle": "시험 시간을 더 받을 수 있나요?",
-  "exam.startExamInstructions.footerText": "장애가 있는 경우 제한 시간 시험을 더 길게 볼 수 있습니다. 추가 시간에 대해서는 과정 운영팀에 문의하세요.",
 
   "exam.submitExamInstructions.title": "시험을 제출할까요?",
   "exam.submitExamInstructions.warningText": "시험 전체를 제출하기 전에 각 문항의 「제출」을 눌렀는지 확인하세요.",
