@@ -6,11 +6,15 @@ import { messageTypes } from './sequence/Unit/constants';
 
 const HINT_ID = 'klms-exam-submit-hint';
 const JUMP_ID = 'klms-exam-jump-link';
+const OBSERVE_OPTS = { childList: true, subtree: true };
 
 /**
  * iframe 이 보낸 문항 제출 상태로 시험 종료 버튼을 잠급니다.
  * 숨긴 안내 문구의 시험 링크(exam_url_path)를 「시험 바로가기」로 종료 버튼 왼쪽에 복원합니다.
  * 제한 시간 만료 자동 제출은 막지 않습니다.
+ *
+ * MutationObserver 가 textContent/속성 재할당으로 자기 자신을 다시 깨우지 않도록
+ * 값이 바뀔 때만 DOM 을 쓰고, 콜백 중에는 observer 를 잠시 끕니다.
  */
 const ExamSubmitGate = () => {
   const intl = useIntl();
@@ -19,6 +23,11 @@ const ExamSubmitGate = () => {
   const jumpLabel = intl.formatMessage({
     id: 'klms.exam.jumpToExam',
     defaultMessage: '시험 바로가기',
+  });
+
+  const hintText = intl.formatMessage({
+    id: 'klms.exam.submitGate.hint',
+    defaultMessage: '모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.',
   });
 
   const ensureJumpLink = useCallback(() => {
@@ -41,8 +50,12 @@ const ExamSubmitGate = () => {
         link.className = 'klms-exam-jump-link';
         endBtn.parentNode.insertBefore(link, endBtn);
       }
-      link.setAttribute('href', href);
-      link.textContent = jumpLabel;
+      if (link.getAttribute('href') !== href) {
+        link.setAttribute('href', href);
+      }
+      if (link.textContent !== jumpLabel) {
+        link.textContent = jumpLabel;
+      }
     });
   }, [jumpLabel]);
 
@@ -52,13 +65,25 @@ const ExamSubmitGate = () => {
     );
     buttons.forEach((button) => {
       if (ready) {
-        button.removeAttribute('disabled');
-        button.classList.remove('disabled');
-        button.setAttribute('aria-disabled', 'false');
+        if (button.hasAttribute('disabled')) {
+          button.removeAttribute('disabled');
+        }
+        if (button.classList.contains('disabled')) {
+          button.classList.remove('disabled');
+        }
+        if (button.getAttribute('aria-disabled') !== 'false') {
+          button.setAttribute('aria-disabled', 'false');
+        }
       } else {
-        button.setAttribute('disabled', 'disabled');
-        button.classList.add('disabled');
-        button.setAttribute('aria-disabled', 'true');
+        if (!button.hasAttribute('disabled')) {
+          button.setAttribute('disabled', 'disabled');
+        }
+        if (!button.classList.contains('disabled')) {
+          button.classList.add('disabled');
+        }
+        if (button.getAttribute('aria-disabled') !== 'true') {
+          button.setAttribute('aria-disabled', 'true');
+        }
       }
     });
 
@@ -78,12 +103,11 @@ const ExamSubmitGate = () => {
         hint.setAttribute('role', 'status');
         timer.appendChild(hint);
       }
-      hint.textContent = intl.formatMessage({
-        id: 'klms.exam.submitGate.hint',
-        defaultMessage: '모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.',
-      });
+      if (hint.textContent !== hintText) {
+        hint.textContent = hintText;
+      }
     });
-  }, [intl]);
+  }, [hintText]);
 
   useEffect(() => {
     let lmsOrigin = '';
@@ -107,9 +131,17 @@ const ExamSubmitGate = () => {
   }, []);
 
   useEffect(() => {
+    const run = () => {
+      observer.disconnect();
+      try {
+        ensureJumpLink();
+      } finally {
+        observer.observe(document.body, OBSERVE_OPTS);
+      }
+    };
+    const observer = new MutationObserver(run);
     ensureJumpLink();
-    const observer = new MutationObserver(() => ensureJumpLink());
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, OBSERVE_OPTS);
     return () => observer.disconnect();
   }, [ensureJumpLink]);
 
@@ -117,9 +149,17 @@ const ExamSubmitGate = () => {
     if (allSubmitted === null) {
       return undefined;
     }
+    const run = () => {
+      observer.disconnect();
+      try {
+        applyGate(allSubmitted);
+      } finally {
+        observer.observe(document.body, OBSERVE_OPTS);
+      }
+    };
+    const observer = new MutationObserver(run);
     applyGate(allSubmitted);
-    const observer = new MutationObserver(() => applyGate(allSubmitted));
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, OBSERVE_OPTS);
     return () => observer.disconnect();
   }, [allSubmitted, applyGate]);
 
