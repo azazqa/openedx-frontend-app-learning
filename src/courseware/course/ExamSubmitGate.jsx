@@ -6,7 +6,8 @@ import { messageTypes } from './sequence/Unit/constants';
 
 const HINT_ID = 'klms-exam-submit-hint';
 const JUMP_ID = 'klms-exam-jump-link';
-const END_BTN_SEL = '[data-testid="end-button"], [data-testid="end-exam-button"]';
+/** 알림바 「시험 종료」만. 제출 확인 화면의 end-exam-button 은 가로채지 않는다. */
+const TIMER_END_BTN_SEL = '[data-testid="end-button"]';
 const OBSERVE_OPTS = { childList: true, subtree: true };
 
 function examHrefFromTimer(timer) {
@@ -14,14 +15,25 @@ function examHrefFromTimer(timer) {
   return source?.getAttribute('href') || '';
 }
 
+/**
+ * exam_url_path 는 LMS /course/... 인 경우가 많고, Learning MFE 는 /learning/course/... 이다.
+ * pathname 전체 일치만 보면 시험 유닛에서도 비시험으로 오판해 종료 클릭이 막힌다.
+ */
 function isCurrentExamLocation(examHref) {
   if (!examHref) {
     return false;
   }
   try {
     const exam = new URL(examHref, window.location.href);
-    return exam.pathname === window.location.pathname
-      && exam.search === window.location.search;
+    const here = window.location;
+    if (exam.pathname === here.pathname && exam.search === here.search) {
+      return true;
+    }
+    const blockMatch = exam.pathname.match(/block-v1:[^/?#]+/);
+    if (blockMatch && decodeURIComponent(here.pathname).includes(blockMatch[0])) {
+      return true;
+    }
+    return false;
   } catch (err) {
     return false;
   }
@@ -83,7 +95,7 @@ const ExamSubmitGate = () => {
   const ensureJumpLink = useCallback(() => {
     document.querySelectorAll('[data-testid="exam-timer"]').forEach((timer) => {
       const href = examHrefFromTimer(timer);
-      const endBtn = timer.querySelector(END_BTN_SEL);
+      const endBtn = timer.querySelector(TIMER_END_BTN_SEL);
       if (!href || !endBtn || !endBtn.parentNode) {
         return;
       }
@@ -104,7 +116,7 @@ const ExamSubmitGate = () => {
   }, [jumpLabel]);
 
   const clearEndButtonLock = useCallback(() => {
-    document.querySelectorAll(END_BTN_SEL).forEach((button) => {
+    document.querySelectorAll(TIMER_END_BTN_SEL).forEach((button) => {
       if (button.hasAttribute('disabled')) {
         button.removeAttribute('disabled');
       }
@@ -172,7 +184,7 @@ const ExamSubmitGate = () => {
 
   useEffect(() => {
     const onClickCapture = (event) => {
-      const button = event.target.closest && event.target.closest(END_BTN_SEL);
+      const button = event.target.closest && event.target.closest(TIMER_END_BTN_SEL);
       if (!button) {
         return;
       }
@@ -180,6 +192,7 @@ const ExamSubmitGate = () => {
       const examHref = examHrefFromTimer(timer)
         || timer?.querySelector(`#${JUMP_ID}`)?.getAttribute('href')
         || '';
+      // 시험 유닛이 아니면 종료 API 대신 시험 화면으로만 이동한다.
       if (examHref && !isCurrentExamLocation(examHref)) {
         event.preventDefault();
         event.stopPropagation();
