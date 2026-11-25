@@ -24,5 +24,7 @@
   "exam.submittedExamInstructions.overtimeTitle": "시험 시간이 끝났습니다. 시험이 제출되었으며, 작성한 답안은 채점됩니다.",
 
   "klms.exam.submitGate.hint": "모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.",
+  "klms.exam.submitGate.missing": "미제출: {numbers}",
+  "klms.exam.submitGate.missingAlert": "미제출 문항: {numbers}",
   "klms.exam.jumpToExam": "시험 이동"
 }
