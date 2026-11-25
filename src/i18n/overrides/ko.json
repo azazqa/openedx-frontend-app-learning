@@ -16,9 +16,10 @@
   "exam.startExamInstructions.startExamButtonText": "이 시험을 시작할 준비가 되었습니다",
 
   "exam.submitExamInstructions.title": "시험을 제출할까요?",
-  "exam.submitExamInstructions.warningText": "시험 전체를 제출하기 전에 각 문항의 「제출」을 눌렀는지 확인하세요.",
-  "exam.submitExamInstructions.text": "시험을 제출하면 채점이 진행됩니다.",
+  "exam.submitExamInstructions.warningText": "시험을 끝내기 전에 각 문항에서 「제출」을 눌렀는지 확인하세요.",
+  "exam.submitExamInstructions.text": "시험을 제출하면 채점됩니다.",
   "exam.submitExamInstructions.submit": "예, 시험을 제출합니다",
+  "exam.SubmitExamInstructions.continueButton": "아니요, 시험으로 돌아가기",
 
   "exam.submittedExamInstructions.title": "제한 시간 시험을 제출했습니다.",
   "exam.submittedExamInstructions.overtimeTitle": "시험 시간이 끝났습니다. 시험이 제출되었으며, 작성한 답안은 채점됩니다.",
