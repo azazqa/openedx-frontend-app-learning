@@ -8,25 +8,8 @@
   .app-container {
     display: flex;
     flex-direction: column;
-    height: 100svh;
-    max-height: 100svh;
-    overflow: hidden;
-  }
-
-  // 상단·하단 바는 뷰포트에 고정하고, 본문만 스크롤합니다.
-  .learning-shell {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    min-height: 0;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .learning-shell__body {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow: auto;
+    // 페이지 전체 스크롤 — 하단 footer 뷰포트 고정 해제
+    min-height: 100svh;
   }
 
   main {
