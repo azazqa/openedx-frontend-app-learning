@@ -10,7 +10,7 @@ const OBSERVE_OPTS = { childList: true, subtree: true };
 
 /**
  * iframe 이 보낸 문항 제출 상태로 시험 종료 버튼을 잠급니다.
- * 숨긴 안내 문구의 시험 링크(exam_url_path)를 「시험 바로가기」로 종료 버튼 왼쪽에 복원합니다.
+ * 숨긴 안내 문구의 시험 링크(exam_url_path)를 「시험 이동」으로 종료 버튼 왼쪽에 복원합니다.
  * 제한 시간 만료 자동 제출은 막지 않습니다.
  *
  * MutationObserver 가 textContent/속성 재할당으로 자기 자신을 다시 깨우지 않도록
@@ -22,7 +22,7 @@ const ExamSubmitGate = () => {
 
   const jumpLabel = intl.formatMessage({
     id: 'klms.exam.jumpToExam',
-    defaultMessage: '시험 바로가기',
+    defaultMessage: '시험 이동',
   });
 
   const hintText = intl.formatMessage({
