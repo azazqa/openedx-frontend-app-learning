@@ -44,9 +44,10 @@ pull_translations:
 
 	$(intl_imports) frontend-platform paragon frontend-component-header frontend-component-footer frontend-lib-special-exams frontend-app-learning
 	# KLMS: intl-imports regenerates index.js; re-attach overrides LAST so lodash.merge wins over Atlas.
-	@node -e 'const fs=require("fs"); const p="src/i18n/index.js"; let s=fs.readFileSync(p,"utf8"); if(!s.includes("klmsI18nOverrides")){ s="import klmsI18nOverrides from '\''./overrides'\'';\n"+s.replace(/export default \[([\s\S]*?)\];/,"export default [$1  klmsI18nOverrides,\n];"); fs.writeFileSync(p,s); }'
-	# Fail if Atlas learning catalog or KLMS overrides are missing from the messages array.
-	@node -e 'const fs=require("fs"); const s=fs.readFileSync("src/i18n/index.js","utf8"); const need=["messagesFromFrontendAppLearning","klmsI18nOverrides"]; const miss=need.filter((x)=>!s.includes(x)); if(miss.length){ console.error("i18n/index.js missing: "+miss.join(", ")); process.exit(1);} console.log("i18n/index.js ok: Atlas learning + KLMS overrides");'
+	# Make treats $1 as a Make var — use $$1 so node receives the regex capture.
+	@node -e 'const fs=require("fs"); const p="src/i18n/index.js"; let s=fs.readFileSync(p,"utf8"); if(!s.includes("klmsI18nOverrides")){ s="import klmsI18nOverrides from '\''./overrides'\'';\n"+s.replace(/export default \[([\s\S]*?)\];/,"export default [$$1  klmsI18nOverrides,\n];"); fs.writeFileSync(p,s); }'
+	# Fail unless the export array lists Atlas learning AND KLMS overrides (imports alone are not enough).
+	@node -e 'const fs=require("fs"); const s=fs.readFileSync("src/i18n/index.js","utf8"); const m=s.match(/export default \[([\s\S]*?)\];/); if(!m){console.error("i18n/index.js: no export default array"); process.exit(1);} const body=m[1]; for (const x of ["messagesFromFrontendAppLearning","klmsI18nOverrides"]){ if(!body.includes(x)){ console.error("i18n/index.js export missing: "+x); process.exit(1);} } console.log("i18n/index.js ok: Atlas learning + KLMS overrides in export");'
 
 
 # This target is used by Travis.
