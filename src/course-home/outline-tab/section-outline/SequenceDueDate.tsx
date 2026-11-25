@@ -6,6 +6,7 @@ import { useContextId } from '../../../data/hooks';
 import messages from '../messages';
 import { useChasiProgress } from './ChasiProgress';
 import { formatStudyTime } from './formatStudyTime';
+import localizeOutlineText from './localizeOutlineText';
 
 interface Props {
   due: string;
@@ -21,9 +22,10 @@ const SequenceDueDate: React.FC<Props> = ({
   const intl = useIntl();
   const courseId = useContextId();
   const chasi = useChasiProgress(id);
+  const localizedDescription = localizeOutlineText(description);
   let dueDateMessage: string | React.ReactNode = intl.formatMessage(
     messages.sequenceNoDueDate,
-    { description: description || '' },
+    { description: localizedDescription },
   );
   const {
     userTimezone,
@@ -45,7 +47,7 @@ const SequenceDueDate: React.FC<Props> = ({
             {...timezoneFormatArgs}
           />
         ),
-        description: description || '',
+        description: localizedDescription,
       },
     );
   }

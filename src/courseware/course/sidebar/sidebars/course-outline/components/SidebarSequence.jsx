@@ -8,6 +8,7 @@ import { CheckCircle, CheckCircleOutline, IncompleteCircle } from '@openedx/para
 import courseOutlineMessages from '@src/course-home/outline-tab/messages';
 import { useChasiProgress, useChasiSequenceMark } from '@src/course-home/outline-tab/section-outline/ChasiProgress';
 import { numberedTitle, sequenceStatus } from '@src/course-home/outline-tab/section-outline/chasiMark';
+import localizeOutlineText from '@src/course-home/outline-tab/section-outline/localizeOutlineText';
 import { useCourseOutlineSidebar } from '../hooks';
 import CompletionIcon from './CompletionIcon';
 import SidebarUnit from './SidebarUnit';
@@ -34,7 +35,8 @@ const SidebarSequence = ({
   const { activeSequenceId, units, isEnabledCompletionTracking } = useCourseOutlineSidebar();
   const isActiveSequence = id === activeSequenceId;
   const mark = useChasiSequenceMark(id);
-  const heading = numberedTitle(title, useChasiProgress(id)?.chasi);
+  const heading = numberedTitle(localizeOutlineText(title), useChasiProgress(id)?.chasi);
+  const examInfo = localizeOutlineText(specialExamInfo);
   const status = sequenceStatus(mark, complete);
   const label = {
     done: courseOutlineMessages.completedAssignment,
@@ -68,7 +70,7 @@ const SidebarSequence = ({
       </div>
       <div className="col-9 d-flex flex-column flex-grow-1 ml-3 mr-auto p-0 text-left">
         <span className="align-middle text-dark-500">{heading}</span>
-        {specialExamInfo && <span className="align-middle small text-muted">{specialExamInfo}</span>}
+        {examInfo && <span className="align-middle small text-muted">{examInfo}</span>}
         {(mark !== 'edx' || isEnabledCompletionTracking) && (
           <span className="sr-only">
             , {intl.formatMessage(label)}

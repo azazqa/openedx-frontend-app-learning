@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@openedx/paragon';
 import { CheckCircle, CheckCircleOutline, IncompleteCircle } from '@openedx/paragon/icons';
 
-import EffortEstimate from '../../../shared/effort-estimate';
 import messages from '../messages';
 import { useContextId } from '../../../data/hooks';
 import { useChasiProgress, useChasiSequenceMark } from './ChasiProgress';
 import { numberedTitle, sequenceStatus } from './chasiMark';
+import localizeOutlineText from './localizeOutlineText';
 
 interface Props {
   complete: boolean;
@@ -22,12 +22,11 @@ const SequenceTitle: React.FC<Props> = ({
   complete,
   showLink,
   title,
-  sequence,
   id,
 }) => {
   const intl = useIntl();
   const courseId = useContextId();
-  const heading = numberedTitle(title, useChasiProgress(id)?.chasi);
+  const heading = numberedTitle(localizeOutlineText(title), useChasiProgress(id)?.chasi);
   const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{heading}</Link>;
   const displayTitle = showLink ? coursewareUrl : heading;
   const status = sequenceStatus(useChasiSequenceMark(id), complete);
@@ -63,7 +62,6 @@ const SequenceTitle: React.FC<Props> = ({
         <span className="sr-only">
           , {intl.formatMessage(label)}
         </span>
-        <EffortEstimate className="ml-3 align-middle" block={sequence} />
       </div>
     </div>
   );
