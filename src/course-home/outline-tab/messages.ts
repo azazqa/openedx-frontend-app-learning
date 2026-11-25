@@ -184,6 +184,11 @@ const messages = defineMessages({
     defaultMessage: 'Course Tools',
     description: 'Headline for the (course tools) section in course outline. course tool might include links to course bookmarks, financial assistance...etc',
   },
+  toolBookmarks: {
+    id: 'learning.outline.tools.bookmarks',
+    defaultMessage: 'Bookmarks',
+    description: 'Course tool link title for bookmarks (LMS API title is English without edx-platform ko)',
+  },
   upgradeButton: {
     id: 'learning.outline.upgradeButton',
     defaultMessage: 'Upgrade ({symbol}{price})',

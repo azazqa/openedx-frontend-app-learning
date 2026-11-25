@@ -27,5 +27,7 @@
   "klms.exam.submitGate.hint": "모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.",
   "klms.exam.submitGate.missing": "미제출: {numbers}",
   "klms.exam.submitGate.missingAlert": "미제출 문항: {numbers}",
-  "klms.exam.jumpToExam": "시험 이동"
+  "klms.exam.jumpToExam": "시험 이동",
+
+  "learning.outline.tools.bookmarks": "북마크"
 }
