@@ -9,8 +9,27 @@ const JUMP_ID = 'klms-exam-jump-link';
 const END_BTN_SEL = '[data-testid="end-button"], [data-testid="end-exam-button"]';
 const OBSERVE_OPTS = { childList: true, subtree: true };
 
+function examHrefFromTimer(timer) {
+  const source = timer?.querySelector(':scope > div:first-child a[href]');
+  return source?.getAttribute('href') || '';
+}
+
+function isCurrentExamLocation(examHref) {
+  if (!examHref) {
+    return false;
+  }
+  try {
+    const exam = new URL(examHref, window.location.href);
+    return exam.pathname === window.location.pathname
+      && exam.search === window.location.search;
+  } catch (err) {
+    return false;
+  }
+}
+
 /**
  * iframe 이 보낸 문항 제출 상태로 시험 종료를 가로챕니다.
+ * 시험 유닛이 아니면 종료 대신 exam_url_path 로 이동합니다.
  * 미제출이면 종료를 막고 문항 번호를 안내합니다.
  * 숨긴 안내 문구의 시험 링크(exam_url_path)를 「시험 이동」으로 종료 버튼 왼쪽에 복원합니다.
  * 제한 시간 만료 자동 제출은 막지 않습니다.
@@ -63,13 +82,9 @@ const ExamSubmitGate = () => {
 
   const ensureJumpLink = useCallback(() => {
     document.querySelectorAll('[data-testid="exam-timer"]').forEach((timer) => {
-      const source = timer.querySelector(':scope > div:first-child a[href]');
+      const href = examHrefFromTimer(timer);
       const endBtn = timer.querySelector(END_BTN_SEL);
-      if (!source || !endBtn || !endBtn.parentNode) {
-        return;
-      }
-      const href = source.getAttribute('href');
-      if (!href) {
+      if (!href || !endBtn || !endBtn.parentNode) {
         return;
       }
       let link = timer.querySelector(`#${JUMP_ID}`);
@@ -159,6 +174,16 @@ const ExamSubmitGate = () => {
     const onClickCapture = (event) => {
       const button = event.target.closest && event.target.closest(END_BTN_SEL);
       if (!button) {
+        return;
+      }
+      const timer = button.closest('[data-testid="exam-timer"]');
+      const examHref = examHrefFromTimer(timer)
+        || timer?.querySelector(`#${JUMP_ID}`)?.getAttribute('href')
+        || '';
+      if (examHref && !isCurrentExamLocation(examHref)) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.assign(examHref);
         return;
       }
       const missing = missingRef.current || [];
