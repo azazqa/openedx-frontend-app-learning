@@ -54,6 +54,7 @@ const ExamSubmitGate = () => {
   const [allSubmitted, setAllSubmitted] = useState(null);
   const [missingNumbers, setMissingNumbers] = useState([]);
   const missingRef = useRef([]);
+  const allSubmittedRef = useRef(null);
 
   const jumpLabel = intl.formatMessage({
     id: 'klms.exam.jumpToExam',
@@ -91,6 +92,13 @@ const ExamSubmitGate = () => {
       { numbers: formatMissingList(numbers) },
     )
   ), [formatMissingList, intl]);
+
+  const unknownStatusText = useCallback(() => (
+    intl.formatMessage({
+      id: 'klms.exam.submitGate.unknown',
+      defaultMessage: '문항 제출 상태를 확인할 수 없습니다. 모든 문항을 제출한 뒤 다시 시도하세요.',
+    })
+  ), [intl]);
 
   const ensureJumpLink = useCallback(() => {
     document.querySelectorAll('[data-testid="exam-timer"]').forEach((timer) => {
@@ -175,6 +183,7 @@ const ExamSubmitGate = () => {
         : [];
       const ready = Boolean(payload && payload.allSubmitted);
       missingRef.current = missing;
+      allSubmittedRef.current = ready;
       setMissingNumbers(missing);
       setAllSubmitted(ready);
     };
@@ -199,17 +208,22 @@ const ExamSubmitGate = () => {
         window.location.assign(examHref);
         return;
       }
-      const missing = missingRef.current || [];
-      if (missing.length === 0) {
+      // 전부 제출됨(true)일 때만 제출 확인 화면으로 보낸다. 메시지 미수신·문항 0개는 막는다.
+      if (allSubmittedRef.current === true) {
         return;
       }
+      const missing = missingRef.current || [];
       event.preventDefault();
       event.stopPropagation();
-      window.alert(alertText(missing));
+      if (missing.length > 0) {
+        window.alert(alertText(missing));
+      } else {
+        window.alert(unknownStatusText());
+      }
     };
     document.addEventListener('click', onClickCapture, true);
     return () => document.removeEventListener('click', onClickCapture, true);
-  }, [alertText]);
+  }, [alertText, unknownStatusText]);
 
   useEffect(() => {
     const run = () => {
