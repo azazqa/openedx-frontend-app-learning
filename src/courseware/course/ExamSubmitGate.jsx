@@ -58,17 +58,21 @@ const ExamSubmitGate = () => {
 
   const jumpLabel = intl.formatMessage({
     id: 'klms.exam.jumpToExam',
-    defaultMessage: '시험 이동',
+    defaultMessage: 'Go to exam',
   });
 
+  // 문항 번호 표기는 번역 저장소(ko overrides)에서 정합니다. 여기서는 번호만 넘깁니다.
   const formatMissingList = useCallback((numbers) => (
-    (numbers || []).map((n) => `${n}번`).join(', ')
-  ), []);
+    (numbers || []).map((n) => intl.formatMessage({
+      id: 'klms.exam.submitGate.questionNumber',
+      defaultMessage: 'Q{number}',
+    }, { number: n })).join(', ')
+  ), [intl]);
 
   const hintText = useCallback((numbers) => {
     const base = intl.formatMessage({
       id: 'klms.exam.submitGate.hint',
-      defaultMessage: '모든 문항을 제출한 뒤에 시험을 마칠 수 있습니다.',
+      defaultMessage: 'You can end the exam after submitting all questions.',
     });
     if (!numbers || numbers.length === 0) {
       return base;
@@ -76,7 +80,7 @@ const ExamSubmitGate = () => {
     const missing = intl.formatMessage(
       {
         id: 'klms.exam.submitGate.missing',
-        defaultMessage: '미제출: {numbers}',
+        defaultMessage: 'Not submitted: {numbers}',
       },
       { numbers: formatMissingList(numbers) },
     );
@@ -87,7 +91,7 @@ const ExamSubmitGate = () => {
     intl.formatMessage(
       {
         id: 'klms.exam.submitGate.missingAlert',
-        defaultMessage: '미제출 문항: {numbers}',
+        defaultMessage: 'Unsubmitted questions: {numbers}',
       },
       { numbers: formatMissingList(numbers) },
     )
@@ -96,7 +100,7 @@ const ExamSubmitGate = () => {
   const unknownStatusText = useCallback(() => (
     intl.formatMessage({
       id: 'klms.exam.submitGate.unknown',
-      defaultMessage: '문항 제출 상태를 확인할 수 없습니다. 모든 문항을 제출한 뒤 다시 시도하세요.',
+      defaultMessage: 'Unable to check question submission status. Submit all questions and try again.',
     })
   ), [intl]);
 

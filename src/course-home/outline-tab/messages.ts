@@ -87,7 +87,7 @@ const messages = defineMessages({
   },
   chasiInProgress: {
     id: 'learning.outline.chasiInProgress',
-    defaultMessage: '학습 진행중',
+    defaultMessage: 'In progress',
     description: '환급 과정의 차시 진도율이 0%보다 크고 50% 미만일 때 아이콘 이름',
   },
   incompleteSection: {
@@ -176,7 +176,7 @@ const messages = defineMessages({
   },
   progressRate: {
     id: 'learning.outline.progressRate',
-    defaultMessage: '진도율',
+    defaultMessage: 'Progress',
     description: 'Heading for the cumulative study-time progress shown beside the course tools',
   },
   tools: {

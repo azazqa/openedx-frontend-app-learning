@@ -22,7 +22,7 @@ const SequenceDueDate: React.FC<Props> = ({
   const intl = useIntl();
   const courseId = useContextId();
   const chasi = useChasiProgress(id);
-  const localizedDescription = localizeOutlineText(description);
+  const localizedDescription = localizeOutlineText(description, intl.formatMessage);
   let dueDateMessage: string | React.ReactNode = intl.formatMessage(
     messages.sequenceNoDueDate,
     { description: localizedDescription },
@@ -56,7 +56,7 @@ const SequenceDueDate: React.FC<Props> = ({
     <div className="row w-100 m-0 ml-3 pl-3 align-items-baseline">
       {chasi && (
         <span data-testid="chasi-study">
-          {formatStudyTime(chasi.seconds)}
+          {formatStudyTime(chasi.seconds, intl.formatMessage)}
           {' · '}
           {chasi.percent}
           %

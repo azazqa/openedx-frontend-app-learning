@@ -13,6 +13,7 @@ export interface CourseTabsNavigationProps {
     title: string;
     slug: string;
     url: string;
+    titleMessage?: { id: string; defaultMessage: string; description?: string };
   }>;
 }
 

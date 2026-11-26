@@ -38,7 +38,7 @@ describe('CourseProgress', () => {
     expect(screen.getByRole('progressbar').parentElement.style.width).toBe('200px');
     expect(screen.getByRole('progressbar').parentElement.style.maxWidth).toBe('200px');
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '12.5');
-    expect(screen.getByRole('heading', { name: '진도율' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Progress' })).toBeInTheDocument();
   });
 
   it('shows 0.0% when the course has no rate', async () => {

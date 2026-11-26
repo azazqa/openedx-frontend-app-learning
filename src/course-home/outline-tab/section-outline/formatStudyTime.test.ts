@@ -1,15 +1,20 @@
 import { formatStudyTime } from './formatStudyTime';
 
+// 기본값(영어)으로 검증합니다. 한국어는 번역 저장소 overrides 가 채웁니다.
+const formatMessage = (descriptor: { defaultMessage: string }, values: Record<string, string | number> = {}) => (
+  descriptor.defaultMessage.replace(/\{(\w+)\}/g, (_, key) => String(values[key]))
+);
+
 describe('formatStudyTime', () => {
-  it('shows seconds under a minute', () => {
-    expect(formatStudyTime(27)).toBe('27초');
+  it('formats seconds only', () => {
+    expect(formatStudyTime(27, formatMessage)).toBe('27s');
   });
 
-  it('shows minutes and seconds', () => {
-    expect(formatStudyTime((18 * 60) + 12)).toBe('18분 12초');
+  it('formats minutes and seconds', () => {
+    expect(formatStudyTime((18 * 60) + 12, formatMessage)).toBe('18m 12s');
   });
 
-  it('shows hours and minutes', () => {
-    expect(formatStudyTime(3600 + (2 * 60))).toBe('1시간 2분');
+  it('formats hours and minutes', () => {
+    expect(formatStudyTime(3600 + (2 * 60), formatMessage)).toBe('1h 2m');
   });
 });

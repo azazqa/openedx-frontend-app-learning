@@ -35,8 +35,8 @@ const SidebarSequence = ({
   const { activeSequenceId, units, isEnabledCompletionTracking } = useCourseOutlineSidebar();
   const isActiveSequence = id === activeSequenceId;
   const mark = useChasiSequenceMark(id);
-  const heading = numberedTitle(localizeOutlineText(title), useChasiProgress(id)?.chasi);
-  const examInfo = localizeOutlineText(specialExamInfo);
+  const heading = numberedTitle(localizeOutlineText(title, intl.formatMessage), useChasiProgress(id)?.chasi);
+  const examInfo = localizeOutlineText(specialExamInfo, intl.formatMessage);
   const status = sequenceStatus(mark, complete);
   const label = {
     done: courseOutlineMessages.completedAssignment,

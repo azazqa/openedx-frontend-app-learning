@@ -26,7 +26,7 @@ const SequenceTitle: React.FC<Props> = ({
 }) => {
   const intl = useIntl();
   const courseId = useContextId();
-  const heading = numberedTitle(localizeOutlineText(title), useChasiProgress(id)?.chasi);
+  const heading = numberedTitle(localizeOutlineText(title, intl.formatMessage), useChasiProgress(id)?.chasi);
   const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{heading}</Link>;
   const displayTitle = showLink ? coursewareUrl : heading;
   const status = sequenceStatus(useChasiSequenceMark(id), complete);

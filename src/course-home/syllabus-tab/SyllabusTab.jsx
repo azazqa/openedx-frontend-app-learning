@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { getConfig } from '@edx/frontend-platform';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { useSelector } from 'react-redux';
 
 import { useIFrameHeight } from '../../generic/hooks';
@@ -33,6 +34,7 @@ export function syllabusIFrameUrl(courseId) {
  */
 const SyllabusTab = () => {
   const { courseId } = useSelector(state => state.courseHome);
+  const intl = useIntl();
   const [, iFrameHeight] = useIFrameHeight();
   const src = useMemo(() => syllabusIFrameUrl(courseId), [courseId]);
 
@@ -43,7 +45,10 @@ const SyllabusTab = () => {
   return (
     <iframe
       src={src}
-      title="강의 계획서"
+      title={intl.formatMessage({
+        id: 'klms.syllabus.iframeTitle',
+        defaultMessage: 'Course syllabus',
+      })}
       data-testid="syllabus-tab-iframe"
       scrolling="no"
       className="w-100 border-0 d-block"
